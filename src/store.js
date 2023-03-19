@@ -1,5 +1,8 @@
-import { legacy_createStore as createStore } from "redux";
+import counter from "modules/counter";
+import todos from "modules/todos";
+import { combineReducers, legacy_createStore as createStore } from "redux";
 
-const store = createStore();
+const rootReducer = combineReducers({ todos });
+const store = createStore(rootReducer);
 
-function redux() {}
+export default store;
