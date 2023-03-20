@@ -1,8 +1,6 @@
 import counter from "modules/counter";
 import todos from "modules/todos";
 import { combineReducers, legacy_createStore as createStore } from "redux";
-
-const rootReducer = combineReducers({ todos, counter });
-const store = createStore(rootReducer);
-
+var rootReducer = combineReducers({ todos: todos, counter: counter });
+var store = createStore(rootReducer);
 export default store;
