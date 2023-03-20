@@ -1,4 +1,4 @@
-import { addTodo, removeTodo } from "modules/todos";
+import { addTodo, removeTodo, toggleTodo } from "modules/todos";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -21,6 +21,11 @@ const Todos = () => {
     setInputValue("");
   };
 
+  const onClick = (id) => (event) => {
+    event.preventDefault();
+    dispatch(toggleTodo(id));
+  };
+
   const onRemove = (id) => (event) => {
     event.preventDefault();
     dispatch(removeTodo(id));
@@ -36,7 +41,12 @@ const Todos = () => {
         {todos.map((todo) => {
           return (
             <div key={todo.id}>
-              <li key={todo.id}>{todo.text}</li>
+              <li
+                onClick={onClick(todo.id)}
+                style={{ textDecoration: todo.done ? "line-through" : "none" }}
+              >
+                {todo.text}
+              </li>
               <button onClick={onRemove(todo.id)}>삭제</button>
             </div>
           );
