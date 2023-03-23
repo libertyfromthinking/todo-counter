@@ -1,33 +1,29 @@
 import { produce } from "immer";
 
-const ADD_TODO = "todos/ADD_TODO";
-const REMOVE_TODO = "todos/REMOVE_TODO";
-const TOGGLE_TODO = "todos/TOGGLE_TODO";
+const ADD_TODO = "todos/ADD_TODO" as const;
+const REMOVE_TODO = "todos/REMOVE_TODO" as const;
+const TOGGLE_TODO = "todos/TOGGLE_TODO" as const;
 
-const initialState = [
-  /*
-      다음과 같은 객체를 추가
-      {
-        id: number,
-        text: string,
-        done: boolean,
-      }
-  */
-];
+type TodoAction = typeof ADD_TODO;
 
-export const addTodo = (text) => {
+const initialState: Array<{ id: number; text: string; done: boolean }> = [];
+
+export const addTodo = (text: string) => {
   return { type: ADD_TODO, text };
 };
 
-export const removeTodo = (id) => {
+export const removeTodo = (id: number) => {
   return { type: REMOVE_TODO, id };
 };
 
-export const toggleTodo = (id) => {
+export const toggleTodo = (id: number) => {
   return { type: TOGGLE_TODO, id };
 };
 
-const todos = (state = initialState, action) => {
+const todos = (
+  state = initialState,
+  action: { type: any; text: any; id: number },
+) => {
   switch (action.type) {
     case ADD_TODO:
       return produce(state, (draft) => {
