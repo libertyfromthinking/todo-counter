@@ -4,10 +4,6 @@ const ADD_TODO = "todos/ADD_TODO" as const;
 const REMOVE_TODO = "todos/REMOVE_TODO" as const;
 const TOGGLE_TODO = "todos/TOGGLE_TODO" as const;
 
-type TodoAction = typeof ADD_TODO;
-
-const initialState: Array<{ id: number; text: string; done: boolean }> = [];
-
 export const addTodo = (text: string) => {
   return { type: ADD_TODO, text };
 };
@@ -20,10 +16,14 @@ export const toggleTodo = (id: number) => {
   return { type: TOGGLE_TODO, id };
 };
 
-const todos = (
-  state = initialState,
-  action: { type: any; text: any; id: number },
-) => {
+type TodoAction =
+  | ReturnType<typeof addTodo>
+  | ReturnType<typeof removeTodo>
+  | ReturnType<typeof toggleTodo>;
+
+const initialState: Array<{ id: number; text: string; done: boolean }> = [];
+
+const todos = (state = initialState, action: TodoAction) => {
   switch (action.type) {
     case ADD_TODO:
       return produce(state, (draft) => {

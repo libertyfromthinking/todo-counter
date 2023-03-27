@@ -4,7 +4,7 @@ import Home from "Components/Home";
 import Counter from "Components/Counter";
 import Todos from "Components/Todos";
 
-const App = () => {
+const App = (): JSX.Element => {
   return (
     <div className="App">
       <Routes>
