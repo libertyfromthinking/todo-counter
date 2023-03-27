@@ -1,15 +1,10 @@
 import { produce } from "immer";
 
-const SET_DIFF = "counter/SET_DIFF";
-const INCREASE = "counter/INCREASE";
-const DECREASE = "counter/DECREASE";
+const SET_DIFF = "counter/SET_DIFF" as const;
+const INCREASE = "counter/INCREASE" as const;
+const DECREASE = "counter/DECREASE" as const;
 
-const initialState = {
-  value: 0,
-  diff: 1,
-};
-
-export const setDiff = (diff) => {
+export const setDiff = (diff: number) => {
   return {
     type: SET_DIFF,
     diff,
@@ -22,15 +17,25 @@ export const decrease = () => {
   return { type: DECREASE };
 };
 
-const counter = (state = initialState, action) => {
+export type counterAction =
+  | ReturnType<typeof setDiff>
+  | ReturnType<typeof increase>
+  | ReturnType<typeof decrease>;
+
+const initialState: { value: number; diff: number } = {
+  value: 0,
+  diff: 1,
+};
+
+const counter = (state = initialState, action: counterAction) => {
   switch (action.type) {
     case INCREASE:
       return produce(state, (draft) => {
-        draft.value += parseInt(draft.diff);
+        draft.value += draft.diff;
       });
     case DECREASE:
       return produce(state, (draft) => {
-        draft.value -= parseInt(draft.diff);
+        draft.value -= draft.diff;
       });
     case SET_DIFF:
       return produce(state, (draft) => {

@@ -1,28 +1,38 @@
-import { decrease, increase, setDiff as setCounterDiff } from "modules/counter";
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
+import {
+  counterAction,
+  decrease,
+  increase,
+  setDiff as setCounterDiff,
+} from "modules/counter";
 import { useDispatch, useSelector } from "react-redux";
+import { Dispatch } from "redux";
 
-const Counter = () => {
-  const dispatch = useDispatch();
-  const { value: counterValue, diff: initialDiff } = useSelector(
-    (state) => state.counter,
+const Counter = (): JSX.Element => {
+  const dispatch: Dispatch<counterAction> = useDispatch();
+  const {
+    value: counterValue,
+    diff: initialDiff,
+  }: { value: number; diff: number } = useSelector(
+    (state: any) => state!.counter,
   );
   const [diff, setDiff] = useState(initialDiff);
 
-  const onChange = (event) => {
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     const {
-      target: { value },
+      target: { value: stringValue },
     } = event;
+    const value = parseInt(stringValue);
     setDiff(value);
     dispatch(setCounterDiff(value));
   };
-  const onIncrease = (event) => {
+  const onIncrease = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     dispatch(increase());
   };
 
-  const onDecrease = (event) => {
+  const onDecrease = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     dispatch(decrease());
   };

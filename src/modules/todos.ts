@@ -16,7 +16,7 @@ export const toggleTodo = (id: number) => {
   return { type: TOGGLE_TODO, id };
 };
 
-type TodoAction =
+export type TodoAction =
   | ReturnType<typeof addTodo>
   | ReturnType<typeof removeTodo>
   | ReturnType<typeof toggleTodo>;
