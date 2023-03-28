@@ -1,20 +1,15 @@
 import { produce } from "immer";
+import { createAction, handleActions } from "redux-actions";
 
 const ADD_TODO = "todos/ADD_TODO" as const;
 const REMOVE_TODO = "todos/REMOVE_TODO" as const;
 const TOGGLE_TODO = "todos/TOGGLE_TODO" as const;
 
-export const addTodo = (text: string) => {
-  return { type: ADD_TODO, text };
-};
+export const addTodo = createAction(ADD_TODO);
 
-export const removeTodo = (id: number) => {
-  return { type: REMOVE_TODO, id };
-};
+export const removeTodo = createAction(REMOVE_TODO);
 
-export const toggleTodo = (id: number) => {
-  return { type: TOGGLE_TODO, id };
-};
+export const toggleTodo = createAction(TOGGLE_TODO);
 
 export type TodoAction =
   | ReturnType<typeof addTodo>
@@ -23,30 +18,43 @@ export type TodoAction =
 
 const initialState: Array<{ id: number; text: string; done: boolean }> = [];
 
-const todos = (state = initialState, action: TodoAction) => {
-  switch (action.type) {
-    case ADD_TODO:
-      return produce(state, (draft) => {
-        draft.unshift({ text: action.text, id: Date.now(), done: false });
-      });
-    case REMOVE_TODO:
-      return produce(state, (draft) => {
-        const index = draft.findIndex((todo) => {
-          return todo.id === action.id;
-        });
-        draft.splice(index, 1);
-      });
-    case TOGGLE_TODO:
-      return produce(state, (draft) => {
-        draft.map((todo) => {
-          if (todo.id === action.id) {
-            todo.done = true;
-          }
-        });
-      });
-    default:
-      return state;
-  }
-};
+const todos = handleActions(
+  {
+    [ADD_TODO]: (state = initialState, action: TodoAction) => {
+      return produce(
+        state,
+        (draft: Array<{ id: number; text: string; done: boolean }>) => {
+          draft.unshift({ text: action.payload, id: Date.now(), done: false });
+        },
+      );
+    },
+    [REMOVE_TODO]: (state = initialState, action: TodoAction) => {
+      return produce(
+        state,
+        (draft: Array<{ id: number; text: string; done: boolean }>) => {
+          const index = draft.findIndex(
+            (todo: { id: number; text: string; done: boolean }) => {
+              return todo.id === action.payload;
+            },
+          );
+          draft.splice(index, 1);
+        },
+      );
+    },
+    [TOGGLE_TODO]: (state = initialState, action: TodoAction) => {
+      return produce(
+        state,
+        (draft: Array<{ id: number; text: string; done: boolean }>) => {
+          draft.map((todo: { id: number; text: string; done: boolean }) => {
+            if (todo.id === action.payload) {
+              todo.done = !todo.done;
+            }
+          });
+        },
+      );
+    },
+  },
+  initialState,
+);
 
 export default todos;

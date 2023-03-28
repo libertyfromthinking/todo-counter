@@ -25,7 +25,7 @@ const Counter = (): JSX.Element => {
     } = event;
     const value = parseInt(stringValue);
     setDiff(value);
-    dispatch(setCounterDiff(value));
+    dispatch(setCounterDiff(value, 20));
   };
   const onIncrease = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
