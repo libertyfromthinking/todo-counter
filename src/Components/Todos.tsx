@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import { addTodo, removeTodo, TodoAction, toggleTodo } from "modules/todos";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
+import { todoArray } from "types";
 
 const Todos = (): JSX.Element => {
   const [inputValue, setInputValue] = useState("");
-  const todos: Array<{ id: number; text: string; done: boolean }> = useSelector(
-    (state: any) => state!.todos,
-  );
+  const todos: todoArray = useSelector((state: any) => state!.todos);
   const dispatch: Dispatch<TodoAction> = useDispatch();
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
