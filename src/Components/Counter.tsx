@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import {
   counterAction,
   decrease,
+  decreaseAsync,
   increase,
+  increaseAsync,
   setDiff as setCounterDiff,
 } from "modules/counter";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,12 +31,12 @@ const Counter = (): JSX.Element => {
   };
   const onIncrease = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    dispatch(increase());
+    dispatch(increaseAsync());
   };
 
   const onDecrease = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    dispatch(decrease());
+    dispatch(decreaseAsync());
   };
 
   return (
